@@ -2,15 +2,13 @@ package org.example;
 
 import java.util.Objects;
 
-public class Locomotiva {
+public class Locomotiva extends Carro{
 
-    private int id;
-    private Trem tremAlocado;
     private double pesoMaximo; // inserido no constructor
     private int limiteVagoes = 5;
 
     protected Locomotiva(int id, double pesoMaximo) {
-        this.id = id;
+        super(id);
         this.pesoMaximo = pesoMaximo;
     }
 
