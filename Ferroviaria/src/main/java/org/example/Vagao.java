@@ -2,26 +2,24 @@ package org.example;
 
 import java.util.Objects;
 
-public class Vagao{
-
-    private int id;
-    private Trem tremAlocado;
+public class Vagao extends Carro{
+    
     private double capacidadeCarga; // valor inserido no constructor
 
-    protected Vagao(int id, double capacidadeCarga){
-        this.id = id;
+    public Vagao(int id, double capacidadeCarga){
+        super(id);
         this.capacidadeCarga = capacidadeCarga;
     }
 
-    protected int getId() {
+    public int getId() {
         return id;
     }
 
-    protected Trem getTremAlocado() {
+    public Trem getTremAlocado() {
         return tremAlocado;
     }
 
-    protected void setTremAlocado(Trem tremAlocado) {
+    public void setTremAlocado(Trem tremAlocado) {
         this.tremAlocado = tremAlocado;
     }
 

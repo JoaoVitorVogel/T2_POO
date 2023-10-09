@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Trem {
+public class Trem extends Carro{
 
     private int id;
     private double capacidadeDeVagoes; // soma da capacidade de vagoes de cada locomotiva
