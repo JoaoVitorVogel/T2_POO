@@ -4,23 +4,25 @@ public abstract class Carro {
     protected Trem tremAlocado;
     protected int id;
 
-    public Carro (int id){
+    protected Carro(int id) {
         this.id = id;
     }
 
-    public Trem getTremAlocado() {
+    protected Trem getTremAlocado() {
         return tremAlocado;
     }
 
-    public void setTremAlocado(Trem tremAlocado) {
+    protected void setTremAlocado(Trem tremAlocado) {
         this.tremAlocado = tremAlocado;
     }
 
-    public int getId() {
+    protected int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    protected void setId(int id) {
         this.id = id;
     }
+
+    abstract int getLimiteVagoes();
 }

@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Objects;
 
-public class Locomotiva extends Carro{
+public class Locomotiva extends Carro {
 
     private double pesoMaximo; // inserido no constructor
     private int limiteVagoes = 5;
