@@ -23,6 +23,4 @@ public abstract class Carro {
     protected void setId(int id) {
         this.id = id;
     }
-
-    abstract int getLimiteVagoes();
 }

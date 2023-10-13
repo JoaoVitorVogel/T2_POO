@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Garagem {
-
     private List<Locomotiva> garagemLocomotivas = new ArrayList<>();
     private List<Vagao> garagemVagoes = new ArrayList<>();
     private List<Trem> garagemTrens = new ArrayList<>();
@@ -42,10 +41,11 @@ public class Garagem {
      * locomotivas nao usadas
      */
     public void alocarLocomotiva(Locomotiva locomotiva, Trem trem) throws InvalidParameterException {
-        if (garagemLocomotivas.isEmpty()){
+        if (garagemLocomotivas.isEmpty()) {
             throw new InvalidParameterException("A garagem de locomotivas está vazia");
-        } else if (!garagemLocomotivas.get(garagemLocomotivas.size()-1).equals(locomotiva)){
-            throw new InvalidParameterException("A locomotiva informada não está acessível. Apenas a última unidade da garagem pode ser retirada");
+        } else if (!garagemLocomotivas.get(garagemLocomotivas.size() - 1).equals(locomotiva)) {
+            throw new InvalidParameterException(
+                    "A locomotiva informada não está acessível. Apenas a última unidade da garagem pode ser retirada");
         } else {
             if (!trem.getListaVagoes().isEmpty()) {
                 throw new InvalidParameterException(
@@ -68,13 +68,15 @@ public class Garagem {
      * usadas
      */
     public void alocarVagao(Vagao vagao, Trem trem) throws InvalidParameterException {
-        if (garagemVagoes.isEmpty()){
+        if (garagemVagoes.isEmpty()) {
             throw new InvalidParameterException("A garagem de vagões está vazia");
-        } else if (!garagemVagoes.get(garagemVagoes.size()-1).equals(vagao)){
-            throw new InvalidParameterException("O vagão informado não está acessível. Apenas a última unidade da garagem pode ser retirada");
+        } else if (!garagemVagoes.get(garagemVagoes.size() - 1).equals(vagao)) {
+            throw new InvalidParameterException(
+                    "O vagão informado não está acessível. Apenas a última unidade da garagem pode ser retirada");
         } else {
             if (trem.getListaLocomotivas().isEmpty()) {
-                throw new InvalidParameterException("Não é possível alocar vagões a unidades sem locomotivas acopladas.");
+                throw new InvalidParameterException(
+                        "Não é possível alocar vagões a unidades sem locomotivas acopladas.");
             }
             vagao.setTremAlocado(trem);
             trem.addVagao(vagao);
@@ -242,20 +244,20 @@ public class Garagem {
 
     @Override
     public String toString() {
-        String text = "    GARAGENS: "       +
-                "\n Garagem de Locomotivas: "+ 
-                "\n " + garagemLocomotivas   +
-                "\n "                        +
-                "\n Garagem de Vagoes: "     + 
-                "\n " + garagemVagoes        +
-                "\n "                        +
+        String text = "    GARAGENS: " +
+                "\n Garagem de Locomotivas: " +
+                "\n " + garagemLocomotivas +
+                "\n " +
+                "\n Garagem de Vagoes: " +
+                "\n " + garagemVagoes +
+                "\n " +
                 "\n Garagem de Trens: ";
 
         if (garagemTrens.isEmpty()) {
             return text + "<vazia>";
         } else {
             String tremList = "\n";
-            for (Trem t : garagemTrens){
+            for (Trem t : garagemTrens) {
                 tremList = tremList.concat(t.toString() + "\n");
             }
             return text + tremList;

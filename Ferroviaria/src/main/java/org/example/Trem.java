@@ -8,8 +8,6 @@ public class Trem {
 
     private int id;
     private double capacidadeDeVagoes; // soma da capacidade de vagoes de cada locomotiva
-    // private List<Locomotiva> listaLocomotivas = new ArrayList<>();
-    // private List<Vagao> listaVagoes = new ArrayList<>();
     private List<Carro> listaCarro = new ArrayList<>();
 
     protected Trem(int id) {
@@ -22,30 +20,55 @@ public class Trem {
     }
 
     public double getCapacidadeDeVagoes() {
-        for(Carro l : listaCarro){
-            if (l instanceof Locomotiva){
+        double capacidade = 0.0;
+        int cont = 0;
+        for (Carro l : listaCarro) {
+            if (l instanceof Locomotiva) {
+                cont++;
                 Locomotiva locomotiva = (Locomotiva) l;
-                float capacidadeTotal = locomotiva.getLimiteVagoes();
+                capacidade += locomotiva.getLimiteVagoes();
             }
         }
-
-            if (listaCarro.size() == 1) {
-                return listaLocomotivas.get(0).getLimiteVagoes();
-            } else {
-                int capacidade = 0;
-                for (Locomotiva l : listaLocomotivas) {
-                    capacidade += l.getLimiteVagoes();
-                }
-                return capacidadeDeVagoes = Math.ceil(capacidade * 0.9);
-            }
+        if (cont > 1) {
+            double capacidadeTotal = Math.ceil(capacidade * 0.9);
+            return capacidadeTotal;
+        } else {
+            return capacidade;
+        }
     }
 
     protected void addVagao(Vagao vagao) throws ArrayIndexOutOfBoundsException {
-        if (listaVagoes.size() < capacidadeDeVagoes) {
-            this.listaVagoes.add(vagao);
+        int cont = 0;
+        for (Carro l : listaCarro) {
+            if (l instanceof Vagao) {
+                cont++;
+            }
+        }
+        if (cont < capacidadeDeVagoes) {
+            this.listaCarro.add(vagao);
         } else {
             throw new ArrayIndexOutOfBoundsException("O limite de vagões deste trem já foi atingido");
         }
+    }
+
+    public int contaLocomotiva() {
+        int cont = 0;
+        for (Carro l : listaCarro) {
+            if (l instanceof Locomotiva) {
+                cont++;
+            }
+        }
+        return cont;
+    }
+
+    public int contaVagao() {
+        int cont = 0;
+        for (Carro l : listaCarro) {
+            if (l instanceof Vagao) {
+                cont++;
+            }
+        }
+        return cont;
     }
 
     protected int getId() {
@@ -54,7 +77,8 @@ public class Trem {
 
     @Override
     public String toString() {
-        return "[ID: T" + id + " Locomotivas: " + listaLocomotivas + " Vagoõs:" + listaVagoes + " Capacidade de Vagoes:"
+        return "[ID: T" + id + " Locomotivas: " + contaLocomotiva() + " Vagoõs:" + contaVagao()
+                + " Capacidade de Vagoes:"
                 + getCapacidadeDeVagoes() + "]";
     }
 
