@@ -23,8 +23,9 @@ public class Trem {
 
     public double getCapacidadeDeVagoes() {
         for(Carro l : listaCarro){
-            if (listaCarro instanceof Locomotiva){
-                Locomotiva l.getLimiteVagoes();
+            if (l instanceof Locomotiva){
+                Locomotiva locomotiva = (Locomotiva) l;
+                float capacidadeTotal = locomotiva.getLimiteVagoes();
             }
         }
 
