@@ -75,9 +75,37 @@ public class Trem {
         return id;
     }
 
+    public List<Carro> getListaCarro() {
+        return listaCarro;
+    }
+
+    public List<Locomotiva> getListaLocomotivas() {
+        List<Locomotiva> listaLocomotiva = new ArrayList<Locomotiva>();
+        for (Carro l : listaCarro) {
+            if (l instanceof Locomotiva) {
+                listaLocomotiva.add((Locomotiva) l);
+            }
+        }
+        return listaLocomotiva;
+    }
+
+    public List<Vagao> getListaVagao() {
+        List<Vagao> listaVagao = new ArrayList<Vagao>();
+        for (Carro l : listaCarro) {
+            if (l instanceof Vagao) {
+                listaVagao.add((Vagao) l);
+            }
+        }
+        return listaVagao;
+    }
+
+    public void setListaCarro(List<Carro> listaCarro) {
+        this.listaCarro = listaCarro;
+    }
+
     @Override
     public String toString() {
-        return "[ID: T" + id + " Locomotivas: " + contaLocomotiva() + " Vagoõs:" + contaVagao()
+        return "[ID: T" + id + " Locomotivas: " + getListaLocomotivas() + " Vagoõs:" + getListaVagao()
                 + " Capacidade de Vagoes:"
                 + getCapacidadeDeVagoes() + "]";
     }

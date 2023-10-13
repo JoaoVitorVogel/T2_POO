@@ -47,7 +47,7 @@ public class Garagem {
             throw new InvalidParameterException(
                     "A locomotiva informada não está acessível. Apenas a última unidade da garagem pode ser retirada");
         } else {
-            if (!trem.getListaVagoes().isEmpty()) {
+            if (trem.contaVagao() != 0) {
                 throw new InvalidParameterException(
                         "Nao é possível alocar locomotivas a unidades com vagões já acoplados.");
             }
@@ -74,7 +74,7 @@ public class Garagem {
             throw new InvalidParameterException(
                     "O vagão informado não está acessível. Apenas a última unidade da garagem pode ser retirada");
         } else {
-            if (trem.getListaLocomotivas().isEmpty()) {
+            if (trem.contaLocomotiva() == 0) {
                 throw new InvalidParameterException(
                         "Não é possível alocar vagões a unidades sem locomotivas acopladas.");
             }
@@ -94,12 +94,12 @@ public class Garagem {
      * - em seguida, remove o ultimo elemento da lista de locomotivas do trem;
      */
     public void desacoplarLocomotiva(Trem trem) throws InvalidParameterException {
-        if (!trem.getListaVagoes().isEmpty()) {
+        if (trem.contaVagao() != 0) {
             throw new InvalidParameterException(
                     "Não é possível desacoplar locomotivas sem antes desacoplar todos os vagões.");
         }
         garagemLocomotivas.add(trem.getListaLocomotivas().get(trem.getListaLocomotivas().size() - 1));
-        trem.getListaLocomotivas().remove(trem.getListaLocomotivas().size() - 1);
+        trem.getListaCarro().remove(trem.getListaCarro().size() - 1);
     }
 
     /*
@@ -107,8 +107,8 @@ public class Garagem {
      * - em seguida, remove o ultimo elemento da lista de vagoes do trem;
      */
     public void desacoplarVagao(Trem trem) {
-        garagemVagoes.add(trem.getListaVagoes().get(trem.getListaVagoes().size() - 1));
-        trem.getListaVagoes().remove(trem.getListaVagoes().size() - 1);
+        garagemVagoes.add(trem.getListaVagao().get(trem.getListaVagao().size() - 1));
+        trem.getListaCarro().remove(trem.getListaCarro().size() - 1);
     }
 
     /*
@@ -159,7 +159,7 @@ public class Garagem {
         for (Trem t : garagemTrens) {
             if (t.equals(trem)) {
                 info.add(String.valueOf(t.getId()));
-                info.add(String.valueOf(t.getListaVagoes()));
+                info.add(String.valueOf(t.getListaVagao()));
                 info.add(String.valueOf(t.getListaLocomotivas()));
             }
         }
@@ -214,7 +214,7 @@ public class Garagem {
      */
     public int inspecionarVagao(int id) throws InvalidParameterException {
         for (Trem t : garagemTrens) {
-            for (Vagao v : t.getListaVagoes()) {
+            for (Vagao v : t.getListaVagao()) {
                 if (v.getId() == id) {
                     return v.getTremAlocado().getId();
                 }
@@ -235,9 +235,9 @@ public class Garagem {
      * - remove o trem da garagem de trens;
      */
     public void desfazerTrem(Trem trem) throws InvalidParameterException {
-        garagemVagoes.addAll(trem.getListaVagoes());
+        garagemVagoes.addAll(trem.getListaVagao());
         garagemLocomotivas.addAll(trem.getListaLocomotivas());
-        trem.getListaVagoes().clear();
+        trem.getListaVagao().clear();
         trem.getListaLocomotivas().clear();
         garagemTrens.remove(trem);
     }
