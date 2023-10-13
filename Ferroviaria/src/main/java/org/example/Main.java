@@ -3,25 +3,50 @@ package org.example;
 import java.security.InvalidParameterException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 
 public class Main {
     static Scanner keyboard = new Scanner(System.in);
-
-    private static final double PESO_MAXIMO = 30;
-    private static final int VAGOES_INICIAIS = 50;
-    private static final int LOCOMOTIVA_INICIAIS = 10;
-    private static final int CAPACIDADE_CARGA = 6;
-
     static Garagem garagem = new Garagem();
 
     public static void criaEmpresa() { // Método para criar as locomotivas e vagões
+        String criaVagaoFile = "Ferroviaria\\arquivos\\inicialVagao.csv";
+        String criaLocomotivaFile = "Ferroviaria\\arquivos\\inicialLocomotiva.csv";
 
-        for (int i = 0; i < VAGOES_INICIAIS; i++) {
-            garagem.cadastrarVagao(i, CAPACIDADE_CARGA);
+        try {
+            FileReader fileReader = new FileReader(criaVagaoFile);
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+            List<String[]> data = csvReader.readAll();
+
+            for (String[] row : data) {
+                int id = Integer.parseInt(row[0]);
+                double capacidadeCarga = Double.parseDouble(row[1]);
+
+                garagem.cadastrarVagao(id, capacidadeCarga);
+            }
+            csvReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        for (int i = 0; i < LOCOMOTIVA_INICIAIS; i++) {
-            garagem.cadastrarLocomotiva(i, PESO_MAXIMO);
+        try {
+            FileReader fileReader = new FileReader(criaLocomotivaFile);
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+            List<String[]> data = csvReader.readAll();
+
+            for (String[] row : data) {
+                int id = Integer.parseInt(row[0]);
+                double pesoMaximo = Double.parseDouble(row[1]);
+
+                garagem.cadastrarLocomotiva(id, pesoMaximo);
+            }
+            csvReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

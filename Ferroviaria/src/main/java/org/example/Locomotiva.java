@@ -16,6 +16,10 @@ public class Locomotiva extends Carro {
         return id;
     }
 
+    public double getPesoMaximo() {
+        return pesoMaximo;
+    }
+
     protected Trem getTremAlocado() {
         return tremAlocado;
     }
