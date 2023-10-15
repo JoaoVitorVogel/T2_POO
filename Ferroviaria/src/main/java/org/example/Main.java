@@ -5,7 +5,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
+
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class Main {
                 double capacidadeCarga = Double.parseDouble(row[1]);
 
                 garagem.cadastrarVagao(id, capacidadeCarga);
+                escreveVagao("vagoes.csv", id, capacidadeCarga);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -43,6 +47,7 @@ public class Main {
                 double pesoMaximo = Double.parseDouble(row[1]);
 
                 garagem.cadastrarLocomotiva(id, pesoMaximo);
+                escreveLocomotiva("locomotivas.csv", id, pesoMaximo);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -309,5 +314,31 @@ public class Main {
                     break;
             }
         } while (switchEdicao == true);
+    }
+
+    public static void escreveVagao(String fileName, int id, double capacidadeCarga) {
+        try {
+            FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
+                                                                    // adicionar ao arquivo existente
+            String[] data = { String.valueOf(id), String.valueOf(capacidadeCarga) };
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            csvWriter.writeNext(data);
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void escreveLocomotiva(String fileName, int id, double pesoMaximo) {
+        try {
+            FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
+                                                                    // adicionar ao arquivo existente
+            String[] data = { String.valueOf(id), String.valueOf(pesoMaximo) };
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            csvWriter.writeNext(data);
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
