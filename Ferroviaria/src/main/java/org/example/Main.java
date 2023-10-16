@@ -22,7 +22,7 @@ public class Main {
 
         try {
             FileReader fileReader = new FileReader(criaVagaoFile);
-            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(0).build();
             List<String[]> data = csvReader.readAll();
 
             for (String[] row : data) {
@@ -37,7 +37,7 @@ public class Main {
 
         try {
             FileReader fileReader = new FileReader(criaLocomotivaFile);
-            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(0).build();
             List<String[]> data = csvReader.readAll();
 
             for (String[] row : data) {
@@ -314,78 +314,78 @@ public class Main {
     }
 
     public static void atualizaArquivos() {
-        try{
+        try {
             String criaLocomotiva = "Ferroviaria\\arquivos\\inicialLocomotiva.csv";
 
             FileWriter fileWriter = new FileWriter(criaLocomotiva, true);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
-            
+
             List<Locomotiva> garagemLocomotivas = garagem.getGaragemLocomotivas();
 
             try (FileWriter writer = new FileWriter(criaLocomotiva, false)) {
-                writer.write(""); 
+                writer.write("");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             for (Locomotiva locomotiva : garagemLocomotivas) {
-                String[] linha = {String.valueOf(locomotiva.getId())};
+                String[] linha = { String.valueOf(locomotiva.getId()) };
                 csvWriter.writeNext(linha);
 
-            } 
+            }
 
             csvWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             String criaVagao = "Ferroviaria\\arquivos\\inicialVagao.csv";
 
             FileWriter fileWriter = new FileWriter(criaVagao, true);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
-            
+
             List<Vagao> garagemVagaos = garagem.getGaragemVagoes();
 
             try (FileWriter writer = new FileWriter(criaVagao, false)) {
-                writer.write(""); 
+                writer.write("");
             } catch (IOException e) {
                 e.printStackTrace();
-            } 
+            }
 
             for (Vagao vagao : garagemVagaos) {
-                String[] linha = {String.valueOf(vagao.getId())};
+                String[] linha = { String.valueOf(vagao.getId()) };
                 csvWriter.writeNext(linha);
-            } 
+            }
 
             csvWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             String criaComposicao = "Ferroviaria\\arquivos\\inicialComposicao.csv";
 
             FileWriter fileWriter = new FileWriter(criaComposicao, true);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
-            
+
             List<Trem> garagemCarros = garagem.getGaragemTrens();
 
             try (FileWriter writer = new FileWriter(criaComposicao, false)) {
-                writer.write(""); 
+                writer.write("");
             } catch (IOException e) {
                 e.printStackTrace();
-            } 
+            }
 
             for (Trem trem : garagemCarros) {
                 String aux = "";
                 List<Integer> listaIds = trem.getTremIds();
-                for(Integer id : listaIds){
+                for (Integer id : listaIds) {
                     aux = aux.concat(String.valueOf(id) + ", ");
                 }
-                
-                String[] linha = {String.valueOf(aux)};
+
+                String[] linha = { String.valueOf(aux) };
                 csvWriter.writeNext(linha);
-            } 
+            }
 
             csvWriter.close();
         } catch (IOException e) {
