@@ -263,4 +263,17 @@ public class Garagem {
             return text + tremList;
         }
     }
+
+    public List<Locomotiva> getGaragemLocomotivas() {
+        return garagemLocomotivas;
+    }
+
+    public List<Vagao> getGaragemVagoes() {
+        return garagemVagoes;
+    }
+
+    public List<Trem> getGaragemTrens() {
+        return garagemTrens;
+    }
+
 }

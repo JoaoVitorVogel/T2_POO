@@ -8,9 +8,9 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.io.FileWriter;
 
 public class Main {
     static Scanner keyboard = new Scanner(System.in);
@@ -30,7 +30,6 @@ public class Main {
                 double capacidadeCarga = Double.parseDouble(row[1]);
 
                 garagem.cadastrarVagao(id, capacidadeCarga);
-                escreveVagao("vagoes.csv", id, capacidadeCarga);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -47,7 +46,6 @@ public class Main {
                 double pesoMaximo = Double.parseDouble(row[1]);
 
                 garagem.cadastrarLocomotiva(id, pesoMaximo);
-                escreveLocomotiva("locomotivas.csv", id, pesoMaximo);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -79,6 +77,7 @@ public class Main {
             case "1": // Criação de um trem
                 criaTrem();
                 menuEditar();
+                atualizaArquivos();
                 break;
             case "2":
                 menuEditar();
@@ -316,29 +315,52 @@ public class Main {
         } while (switchEdicao == true);
     }
 
-    public static void escreveVagao(String fileName, int id, double capacidadeCarga) {
-        try {
-            FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
-                                                                    // adicionar ao arquivo existente
-            String[] data = { String.valueOf(id), String.valueOf(capacidadeCarga) };
-            CSVWriter csvWriter = new CSVWriter(fileWriter);
-            csvWriter.writeNext(data);
-            csvWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static void atualizaArquivos() {
+        try{
+            String criaLocomotiva = "Ferroviaria\\arquivos\\inicialLocomotiva.csv";
 
-    public static void escreveLocomotiva(String fileName, int id, double pesoMaximo) {
-        try {
-            FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
-                                                                    // adicionar ao arquivo existente
-            String[] data = { String.valueOf(id), String.valueOf(pesoMaximo) };
+            FileWriter fileWriter = new FileWriter(criaLocomotiva, true);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
-            csvWriter.writeNext(data);
+            
+            List<Locomotiva> garagemLocomotivas = garagem.getGaragemLocomotivas();
+
+            try (FileWriter writer = new FileWriter(criaLocomotiva, false)) {
+                writer.write(""); 
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            for (Locomotiva locomotiva : garagemLocomotivas) {
+                String[] linha = {String.valueOf(locomotiva.getId()), String.valueOf(locomotiva.getPesoMaximo())};
+                csvWriter.writeNext(linha);
+
+            } 
+
             csvWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        // try {
+        //     FileWriter fileWriter = new FileWriter(fileName, true);
+        //     String[] data = { String.valueOf(id), String.valueOf(capacidadeCarga) };
+        //     CSVWriter csvWriter = new CSVWriter(fileWriter);
+        //     csvWriter.writeNext(data, true);
+        //     csvWriter.close();
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+
+        // try {
+        //     FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
+        //                                                             // adicionar ao arquivo existente
+        //     String[] data = { String.valueOf(id), String.valueOf(pesoMaximo) };
+        //     CSVWriter csvWriter = new CSVWriter(fileWriter);
+        //     csvWriter.writeNext(data, true);
+        //     csvWriter.close();
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
     }
 }
