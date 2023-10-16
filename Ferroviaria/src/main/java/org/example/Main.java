@@ -27,9 +27,8 @@ public class Main {
 
             for (String[] row : data) {
                 int id = Integer.parseInt(row[0]);
-                double capacidadeCarga = Double.parseDouble(row[1]);
 
-                garagem.cadastrarVagao(id, capacidadeCarga);
+                garagem.cadastrarVagao(id, 6.0);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -43,9 +42,8 @@ public class Main {
 
             for (String[] row : data) {
                 int id = Integer.parseInt(row[0]);
-                double pesoMaximo = Double.parseDouble(row[1]);
 
-                garagem.cadastrarLocomotiva(id, pesoMaximo);
+                garagem.cadastrarLocomotiva(id, 30.0);
             }
             csvReader.close();
         } catch (IOException e) {
@@ -332,7 +330,7 @@ public class Main {
             }
             
             for (Locomotiva locomotiva : garagemLocomotivas) {
-                String[] linha = {String.valueOf(locomotiva.getId()), String.valueOf(locomotiva.getPesoMaximo())};
+                String[] linha = {String.valueOf(locomotiva.getId())};
                 csvWriter.writeNext(linha);
 
             } 
@@ -341,26 +339,57 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        // try {
-        //     FileWriter fileWriter = new FileWriter(fileName, true);
-        //     String[] data = { String.valueOf(id), String.valueOf(capacidadeCarga) };
-        //     CSVWriter csvWriter = new CSVWriter(fileWriter);
-        //     csvWriter.writeNext(data, true);
-        //     csvWriter.close();
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+        try{
+            String criaVagao = "Ferroviaria\\arquivos\\inicialVagao.csv";
 
-        // try {
-        //     FileWriter fileWriter = new FileWriter(fileName, true); // O segundo argumento "true" indica que iremos
-        //                                                             // adicionar ao arquivo existente
-        //     String[] data = { String.valueOf(id), String.valueOf(pesoMaximo) };
-        //     CSVWriter csvWriter = new CSVWriter(fileWriter);
-        //     csvWriter.writeNext(data, true);
-        //     csvWriter.close();
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+            FileWriter fileWriter = new FileWriter(criaVagao, true);
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            
+            List<Vagao> garagemVagaos = garagem.getGaragemVagoes();
+
+            try (FileWriter writer = new FileWriter(criaVagao, false)) {
+                writer.write(""); 
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 
+
+            for (Vagao vagao : garagemVagaos) {
+                String[] linha = {String.valueOf(vagao.getId())};
+                csvWriter.writeNext(linha);
+            } 
+
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+            String criaComposicao = "Ferroviaria\\arquivos\\inicialComposicao.csv";
+
+            FileWriter fileWriter = new FileWriter(criaComposicao, true);
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            
+            List<Trem> garagemCarros = garagem.getGaragemTrens();
+
+            try (FileWriter writer = new FileWriter(criaComposicao, false)) {
+                writer.write(""); 
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 
+
+            for (Trem trem : garagemCarros) {
+                String aux = "";
+                List<Integer> listaIds = trem.getTremIds();
+                for(Integer id : listaIds){
+                    aux = aux.concat(String.valueOf(id) + ", ");
+                }
+                
+                String[] linha = {String.valueOf(aux)};
+                csvWriter.writeNext(linha);
+            } 
+
+            csvWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
