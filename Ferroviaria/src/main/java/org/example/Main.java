@@ -19,6 +19,7 @@ public class Main {
     public static void criaEmpresa() { // Método para criar as locomotivas e vagões
         String criaVagaoFile = "Ferroviaria\\arquivos\\inicialVagao.csv";
         String criaLocomotivaFile = "Ferroviaria\\arquivos\\inicialLocomotiva.csv";
+        String criaComposicaoFile = "Ferroviaria\\arquivos\\inicialComposicao.csv";
 
         try {
             FileReader fileReader = new FileReader(criaVagaoFile);
@@ -44,6 +45,34 @@ public class Main {
                 int id = Integer.parseInt(row[0]);
 
                 garagem.cadastrarLocomotiva(id, 30.0);
+            }
+            csvReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FileReader fileReader = new FileReader(criaComposicaoFile);
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(0).build();
+            List<String[]> data = csvReader.readAll();
+
+            for (String[] row : data) {
+                String[] listaRow = row[0].split(",");
+                if (listaRow[0] != null) {
+                    garagem.cadastrarTrem(Integer.parseInt(listaRow[0]));
+                    for (int i = 1; i < listaRow.length; i++) {
+                        if (Integer.parseInt(listaRow[i]) < 100) {
+                            garagem.cadastrarVagao(Integer.parseInt(listaRow[i]), 6.0);
+                            garagem.alocarVagao(garagem.getVagao(Integer.parseInt(listaRow[i])),
+                                    garagem.getTrem(Integer.parseInt(listaRow[0])));
+                        } else {
+                            garagem.cadastrarLocomotiva(Integer.parseInt(listaRow[i]), 30.0);
+                            garagem.alocarLocomotiva(garagem.getLocomotiva(Integer.parseInt(listaRow[i])),
+                                    garagem.getTrem(Integer.parseInt(listaRow[0])));
+                        }
+                    }
+                }
+
             }
             csvReader.close();
         } catch (IOException e) {
@@ -75,7 +104,6 @@ public class Main {
             case "1": // Criação de um trem
                 criaTrem();
                 menuEditar();
-                atualizaArquivos();
                 break;
             case "2":
                 menuEditar();
@@ -90,6 +118,7 @@ public class Main {
                 desfazerTrem();
                 break;
             case "9":
+                atualizaArquivos();
                 System.out.println("------------------------------------------------------");
                 System.out.println("               **Fim do programa**                    ");
                 System.out.println("------------------------------------------------------");
@@ -380,7 +409,7 @@ public class Main {
                 String aux = "";
                 List<Integer> listaIds = trem.getTremIds();
                 for (Integer id : listaIds) {
-                    aux = aux.concat(String.valueOf(id) + ", ");
+                    aux = aux.concat(String.valueOf(id) + ",");
                 }
 
                 String[] linha = { String.valueOf(aux) };
