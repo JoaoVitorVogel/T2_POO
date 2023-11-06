@@ -1,0 +1,5 @@
+1º Menu
+    Vc escolhe a alternativa(Método) com uma caixa de texto 
+
+2º Menu
+    Cada botão é uma alternativa(Método)
